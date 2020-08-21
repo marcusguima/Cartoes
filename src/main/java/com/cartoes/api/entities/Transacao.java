@@ -9,7 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+//import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -43,7 +44,7 @@ private int qdtParcelas;
 private Double juros;
 	 
 @JsonBackReference
-@OneToMany(fetch = FetchType.EAGER)
+@ManyToOne(fetch = FetchType.EAGER)
 private Cartao cartao;
 
 public int getId() {

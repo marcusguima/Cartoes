@@ -20,6 +20,6 @@ public interface TransacaoRepository  extends JpaRepository<Transacao, Integer> 
 List<Transacao> findByCartaoNumero(@Param("cartaoNumero") int cartaoNumero);
 
 @Transactional(readOnly = true)
-Transacao findById(String Id);
+Transacao findByNumero(String numero);
 
 }

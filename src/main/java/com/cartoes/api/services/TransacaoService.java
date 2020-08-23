@@ -46,7 +46,7 @@ public class TransacaoService {
 	
 	
 	
- 	public Optional<List<Transacao>> buscarPorCartaoId(int cartaoNumero) throws ConsistenciaException {
+ 	public Optional<List<Transacao>> buscarPorCartaoNumero(int cartaoNumero) throws ConsistenciaException {
  		 
      	log.info("Service: buscando as transacoes do cartao de numero: {}", cartaoNumero);
 

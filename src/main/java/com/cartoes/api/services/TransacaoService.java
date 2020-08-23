@@ -10,7 +10,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 
 import com.cartoes.api.entities.Transacao;
-
 import com.cartoes.api.repositories.TransacaoRepository;
 import com.cartoes.api.utils.ConsistenciaException;
 
@@ -22,8 +21,7 @@ public class TransacaoService {
 	@Autowired
    	private TransacaoRepository transacaoRepository;
 		
-	@Autowired
-   	//private CartaoRepository cartaoRepository;
+
 	
 	
 	public Optional<Transacao> buscarPorId(int id) throws ConsistenciaException {

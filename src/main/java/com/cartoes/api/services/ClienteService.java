@@ -1,5 +1,7 @@
 package com.cartoes.api.services;
+
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,10 @@ import com.cartoes.api.utils.ConsistenciaException;
 @Service
 public class ClienteService {
  private static final Logger log = LoggerFactory.getLogger(ClienteService.class);
+ 
  @Autowired
  private ClienteRepository clienteRepository;
+ 
  public Optional<Cliente> buscarPorId(int id) throws ConsistenciaException {
 
  log.info("Service: buscando um clinte com o id: {}", id);

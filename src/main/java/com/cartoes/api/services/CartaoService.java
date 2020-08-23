@@ -33,8 +33,8 @@ public class CartaoService {
  
          	if (!cartao.isPresent()) {
  
-                	log.info("Service: Nenhuma cartão com id: {} foi encontrado", id);
-                	throw new ConsistenciaException("Nenhuma cartão com id: {} foi encontrado", id);
+                	log.info("Service: Nenhum cartão com id: {} foi encontrado", id);
+                	throw new ConsistenciaException("Nenhum cartão com id: {} foi encontrado", id);
  
          	}
  

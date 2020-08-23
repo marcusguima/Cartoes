@@ -27,13 +27,32 @@ import com.cartoes.api.utils.ConsistenciaException;
 public class TransacaoController {
 
 	
-	private static final Logger log = LoggerFactory.getLogger(ClienteController.class);
+	private static final Logger log = LoggerFactory.getLogger(TransacaoController.class);
 	
  	@Autowired
    	private TransacaoService transacaoService;
 	
 
- 	
+ 	@GetMapping(value = "/{id}")
+   	public ResponseEntity<Transacao> buscarPorId(@PathVariable("id") int id) {
+ 
+         	try {
+ 
+                	log.info("Controller: buscando transacao com id: {}", id);
+                	
+                	Optional<Transacao> transacao = transacaoService.buscarPorId(id);
+ 
+                	return ResponseEntity.ok(transacao.get());
+ 
+         	} catch (ConsistenciaException e) {
+                	log.info("Controller: Inconsistência de dados: {}", e.getMessage());
+                	return ResponseEntity.badRequest().body(new Transacao());
+         	} catch (Exception e) {
+                	log.error("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
+                	return ResponseEntity.status(500).body(new Transacao());
+         	}
+ 
+   	}
  	
  	
  	@GetMapping(value = "/cartao/{cartaoNumero}")

@@ -2,20 +2,27 @@ package com.cartoes.api.controllers;
  
 import java.util.Optional;
  
+import javax.validation.Valid;
+ 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
  
+import com.cartoes.api.dtos.ClienteDto;
 import com.cartoes.api.entities.Cliente;
+import com.cartoes.api.response.Response;
 import com.cartoes.api.services.ClienteService;
 import com.cartoes.api.utils.ConsistenciaException;
+import com.cartoes.api.utils.ConversaoUtils;
  
 @RestController
 @RequestMapping("/api/cliente")
@@ -34,7 +41,9 @@ public class ClienteController {
    	 * @return Dados do cliente
    	 */
    	@GetMapping(value = "/{id}")
-   	public ResponseEntity<Cliente> buscarPorId(@PathVariable("id") int id) {
+   	public ResponseEntity<Response<ClienteDto>> buscarPorId(@PathVariable("id") int id){
+ 
+         	Response<ClienteDto> response = new Response<ClienteDto>();
  
          	try {
  
@@ -42,14 +51,22 @@ public class ClienteController {
                 	
                 	Optional<Cliente> cliente = clienteService.buscarPorId(id);
  
-                	return ResponseEntity.ok(cliente.get());
+                	response.setDados(ConversaoUtils.Converter(cliente.get()));
+ 
+                	return ResponseEntity.ok(response);
  
          	} catch (ConsistenciaException e) {
+ 
                 	log.info("Controller: Inconsistência de dados: {}", e.getMessage());
-                	return ResponseEntity.badRequest().body(new Cliente());
+                	response.adicionarErro(e.getMensagem());
+                	return ResponseEntity.badRequest().body(response);
+ 
          	} catch (Exception e) {
+ 
                 	log.error("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
-                	return ResponseEntity.status(500).body(new Cliente());
+                	response.adicionarErro("Ocorreu um erro na aplicação: {}", e.getMessage());
+                	return ResponseEntity.status(500).body(response);
+ 
          	}
  
    	}
@@ -61,7 +78,9 @@ public class ClienteController {
    	 * @return Dados do cliente
    	 */
    	@GetMapping(value = "/cpf/{cpf}")
-   	public ResponseEntity<Cliente> buscarPorCpf(@PathVariable("cpf") String cpf) {
+   	public ResponseEntity<Response<ClienteDto>> buscarPorCpf(@PathVariable("cpf") String cpf) {
+ 
+         	Response<ClienteDto> response = new Response<ClienteDto>();
  
          	try {
  
@@ -69,14 +88,22 @@ public class ClienteController {
  
                 	Optional<Cliente> cliente = clienteService.buscarPorCpf(cpf);
  
-                	return ResponseEntity.ok(cliente.get());
+                	response.setDados(ConversaoUtils.Converter(cliente.get()));
+ 
+                	return ResponseEntity.ok(response);
  
          	} catch (ConsistenciaException e) {
+ 
                 	log.info("Controller: Inconsistência de dados: {}", e.getMessage());
-                	return ResponseEntity.badRequest().body(new Cliente());
+                	response.adicionarErro(e.getMensagem());
+                	return ResponseEntity.badRequest().body(response);
+ 
          	} catch (Exception e) {
+ 
                 	log.error("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
-                	return ResponseEntity.status(500).body(new Cliente());
+                	response.adicionarErro("Ocorreu um erro na aplicação: {}", e.getMessage());
+                	return ResponseEntity.status(500).body(response);
+                	
          	}
  
    	}
@@ -88,20 +115,42 @@ public class ClienteController {
    	 * @return Dados do cliente persistido
    	 */
    	@PostMapping
-   	public ResponseEntity<Cliente> salvar(Cliente cliente) {
+   	public ResponseEntity<Response<ClienteDto>> salvar(@Valid @RequestBody ClienteDto clienteDto, BindingResult result) {
+ 
+         	Response<ClienteDto> response = new Response<ClienteDto>();
  
          	try {
  
-                	log.info("Controller: salvando o cliente: {}", cliente.toString());
+                	log.info("Controller: salvando o cliente: {}", clienteDto.toString());
  
-                	return ResponseEntity.ok(this.clienteService.salvar(cliente));
+                	if (result.hasErrors()) {
+ 
+                       	for (int i = 0; i < result.getErrorCount(); i++) {
+                       	   	response.adicionarErro(result.getAllErrors().get(i).getDefaultMessage());
+                       	}
+                       	
+                       	log.info("Controller: Os campos obrigatórios não foram preenchidos");
+                       	return ResponseEntity.badRequest().body(response);
+ 
+                	}
+ 
+                	Cliente cliente = this.clienteService.salvar(ConversaoUtils.Converter(clienteDto));
+                	response.setDados(ConversaoUtils.Converter(cliente));
+ 
+                	return ResponseEntity.ok(response);
  
          	} catch (ConsistenciaException e) {
+ 
                 	log.info("Controller: Inconsistência de dados: {}", e.getMessage());
-                	return ResponseEntity.badRequest().body(new Cliente());
+                	response.adicionarErro(e.getMensagem());
+                	return ResponseEntity.badRequest().body(response);
+ 
          	} catch (Exception e) {
+ 
                 	log.error("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
-                	return ResponseEntity.status(500).body(new Cliente());
+                	response.adicionarErro("Ocorreu um erro na aplicação: {}", e.getMessage());
+                	return ResponseEntity.status(500).body(response);
+                	
          	}
  
    	}

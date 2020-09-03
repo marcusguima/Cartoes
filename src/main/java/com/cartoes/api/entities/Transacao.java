@@ -2,6 +2,7 @@ package com.cartoes.api.entities;
 
 
 import java.io.Serializable;
+
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,17 +11,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-//import javax.persistence.OneToMany;
+
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
+
 @Entity
 @Table(name = "transacao")
-
-
-
-
 public class Transacao implements Serializable {
 	
 private static final long serialVersionUID = 1L;
@@ -31,13 +30,13 @@ private int id;
 @Column(name = "data_Transacao", nullable = false)
 private Date dataTransacao;
 
-@Column(name = "cnpj", nullable = false, length = 14, unique = true)
+@Column(name = "cnpj", nullable = false, length = 14)
 private String cnpj;
 
 @Column(name = "valor", nullable = false)
 private Double valor;
 
-@Column(name = "qdt_Parcelas", nullable = false, length = 11)
+@Column(name = "qdt_Parcelas", nullable = false)
 private int qdtParcelas;
 
 @Column(name = "juros", nullable = false)

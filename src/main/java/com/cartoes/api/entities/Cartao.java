@@ -15,7 +15,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
-@Table(name = "cartao")
+@Table(name = "Cartao")
 public class Cartao implements Serializable {
  private static final long serialVersionUID = 1L;
  @Id

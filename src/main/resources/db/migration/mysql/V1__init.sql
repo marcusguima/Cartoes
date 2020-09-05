@@ -1,4 +1,4 @@
-CREATE TABLE `Cliente` (
+CREATE TABLE `cliente` (
  `id` INT NOT NULL AUTO_INCREMENT,
  `nome` VARCHAR(100) NOT NULL,
  `cpf` CHAR(11) NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE `Cliente` (
  UNIQUE INDEX `cpf_UNIQUE` (`cpf` ASC))
 ENGINE = InnoDB;
 
-CREATE TABLE `Cartao` (
+CREATE TABLE `cartao` (
  `id` INT NOT NULL AUTO_INCREMENT,
  `numero` CHAR(16) NOT NULL,
  `data_Validade` DATETIME NOT NULL,
@@ -17,10 +17,10 @@ CREATE TABLE `Cartao` (
  `cliente_id` INT NOT NULL,
  PRIMARY KEY (`id`),
  UNIQUE INDEX `numero_UNIQUE` (`numero` ASC),
- INDEX `fk_Cartao_Cliente_idx` (`cliente_id` ASC),
- CONSTRAINT `fk_Cartao_Cliente`
+ INDEX `fk_cartao_cliente_idx` (`cliente_id` ASC),
+ CONSTRAINT `fk_cartao_cliente`
  FOREIGN KEY (`cliente_id`)
- REFERENCES `Cliente` (`id`)
+ REFERENCES `cliente` (`id`)
  ON DELETE NO ACTION
  ON UPDATE NO ACTION)
 ENGINE = InnoDB;

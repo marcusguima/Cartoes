@@ -1,4 +1,4 @@
-CREATE TABLE `Transacao` (
+CREATE TABLE `transacao` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `data_Transacao` DATETIME NOT NULL,
   `cnpj` CHAR(14) NOT NULL,
@@ -7,10 +7,10 @@ CREATE TABLE `Transacao` (
   `juros` DOUBLE NOT NULL,
   `cartao_id` INT NOT NULL,
  PRIMARY KEY (`id`),
- INDEX `fk_Transacao_Cartao_idx` (`cartao_id` ASC),
-CONSTRAINT `fk_Transacao_Cartao`
+ INDEX `fk_transacao_cartao_idx` (`cartao_id` ASC),
+CONSTRAINT `fk_transacao_cartao`
 FOREIGN KEY (`cartao_id`)
-REFERENCES `Cartao` (`id`)
+REFERENCES `cartao` (`id`)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION)
 ENGINE = InnoDB;

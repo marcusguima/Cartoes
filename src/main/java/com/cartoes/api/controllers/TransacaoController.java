@@ -4,10 +4,13 @@ package com.cartoes.api.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,7 +66,8 @@ public class TransacaoController {
  		
 	
  	@PostMapping
-   	public ResponseEntity<Response<TransacaoDto>> salvar(@RequestBody TransacaoDto transacaoDto) {
+   	public ResponseEntity<Response<TransacaoDto>> salvar(@Valid @RequestBody TransacaoDto transacaoDto, 
+   			BindingResult result) {
  
  			Response<TransacaoDto> response = new Response<TransacaoDto>();
  		
@@ -71,6 +75,17 @@ public class TransacaoController {
  
                 	log.info("Controller: salvando a transacao: {}", transacaoDto.toString());
          	
+                	if (result.hasErrors()) {
+                		 
+                       	for (int i = 0; i < result.getErrorCount(); i++) {
+                       	   	response.adicionarErro(result.getAllErrors().get(i).getDefaultMessage());
+                       	}
+ 
+                       	log.info("Controller: Os campos obrigatórios não foram preenchidos");
+                       	return ResponseEntity.badRequest().body(response);
+ 
+                	}
+                	
                 	Transacao transacao = this.transacaoService.salvar(ConversaoUtils.Converter(transacaoDto));
 
                 	response.setDados(ConversaoUtils.Converter(transacao)); 

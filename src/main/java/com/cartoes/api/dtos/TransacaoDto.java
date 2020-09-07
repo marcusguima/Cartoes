@@ -1,5 +1,10 @@
 package com.cartoes.api.dtos;
 
+import javax.validation.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Length;
+
+
+
 public class TransacaoDto {
 
 	private String id;
@@ -68,8 +73,6 @@ public class TransacaoDto {
 	}
 	
 	
-	
-	
 	@Override
    	public String toString() {
          	return "Transacao[id=" + id + ","
@@ -80,28 +83,6 @@ public class TransacaoDto {
                        	+ "juros=" + juros + ","
                        	+ "cartaoId=" + cartaoId + "]";
    	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }

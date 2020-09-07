@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cartoes.api.dtos.TransacaoDto;
 import com.cartoes.api.entities.Transacao;
 import com.cartoes.api.response.Response;
 import com.cartoes.api.services.TransacaoService;
 import com.cartoes.api.utils.ConsistenciaException;
+import com.cartoes.api.utils.ConversaoUtils;
 
 @RestController
 @RequestMapping("/api/transacao")
@@ -34,16 +36,17 @@ public class TransacaoController {
 	
 
  	@GetMapping(value = "/cartao/{numeroCartao}")
-   	public ResponseEntity<Response<List<Transacao>>> buscarPorNumeroCartao(@PathVariable("numeroCartao") String numeroCartao) {
+   	public ResponseEntity<Response<List<TransacaoDto>>> buscarPorNumeroCartao(@PathVariable("numeroCartao") String numeroCartao) {
  
  		
- 			Response<List<Transacao>> response = new Response<List<Transacao>>();
+ 			Response<List<TransacaoDto>> response = new Response<List<TransacaoDto>>();
  		
          	try {
      	
                 	Optional<List<Transacao>> listaTransacao = transacaoService.buscarPorNumeroCartao(numeroCartao);
                 	
-                	response.setDados(listaTransacao.get());
+                	response.setDados(ConversaoUtils.ConverterListaTransacao(listaTransacao.get()));
+                	
                 	return ResponseEntity.ok(response);
  
          	} catch (ConsistenciaException e) {
@@ -60,15 +63,17 @@ public class TransacaoController {
  		
 	
  	@PostMapping
-   	public ResponseEntity<Response<Transacao>> salvar(@RequestBody Transacao transacao) {
+   	public ResponseEntity<Response<TransacaoDto>> salvar(@RequestBody TransacaoDto transacaoDto) {
  
- 			Response<Transacao> response = new Response<Transacao>();
+ 			Response<TransacaoDto> response = new Response<TransacaoDto>();
  		
          	try {
  
-                	log.info("Controller: salvando a transacao: {}", transacao.toString());
+                	log.info("Controller: salvando a transacao: {}", transacaoDto.toString());
          	
-                	response.setDados(this.transacaoService.salvar(transacao));
+                	Transacao transacao = this.transacaoService.salvar(ConversaoUtils.Converter(transacaoDto));
+
+                	response.setDados(ConversaoUtils.Converter(transacao)); 
                 	
                 	return ResponseEntity.ok(response);
  

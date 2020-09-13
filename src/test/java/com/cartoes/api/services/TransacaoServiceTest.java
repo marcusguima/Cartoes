@@ -13,14 +13,12 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.dao.DataIntegrityViolationException;
+
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.cartoes.api.entities.Cartao;
-import com.cartoes.api.entities.Cliente;
+
 import com.cartoes.api.entities.Transacao;
-import com.cartoes.api.repositories.ClienteRepository;
 import com.cartoes.api.repositories.TransacaoRepository;
 import com.cartoes.api.utils.ConsistenciaException;
  
@@ -39,14 +37,14 @@ public class TransacaoServiceTest {
    	public void testBuscarPorNumeroCartaoExistente() throws ConsistenciaException {
          	
 		
-		Optional<List<Transacao>> resultado = transacaoService.buscarPorNumeroCartao("5461109310353115");		
+				
          	
-		BDDMockito.given(transacaoRepository.findByNumeroCartao(Mockito.anyString()))
-                	.willReturn(resultado);
+			BDDMockito.given(transacaoRepository.findByNumeroCartao(Mockito.anyString()))
+                	.willReturn(new Transacao());
          	
-         	//Optional<List<Transacao>> resultado = transacaoService.buscarPorNumeroCartao("5461109310353115");
+			Optional<List<Transacao>> resultado = transacaoService.buscarPorNumeroCartao("5461109310353115");
          	
-        	assertTrue(resultado.isPresent());       	
+			assertTrue(resultado.isPresent());       	
    	}
    	
    	@Test(expected = ConsistenciaException.class)
@@ -56,6 +54,18 @@ public class TransacaoServiceTest {
          	.willReturn(null);
          	
          	transacaoService.buscarPorNumeroCartao("5461109310353115");
+         	
+   	}
+   	
+	@Test
+   	public void testSalvarComSucesso() throws ConsistenciaException {  	
+         	
+         	BDDMockito.given(transacaoRepository.save(Mockito.any(Transacao.class)))
+                	.willReturn(new Transacao());
+         	
+         	Transacao resultado = transacaoService.salvar(new Transacao());
+         	
+         	assertNotNull(resultado);
          	
    	}
 	

@@ -1,8 +1,8 @@
-INSERT INTO `usuario` (`id`, `nome`, `cpf`, `senha`, `ativo`) VALUES
-(DEFAULT, 'Usuario 01', '14848682002', '$2a$10$FHayM6spzm5LGUa//VKYKe9iWLPlSnYpdwGEkvHMlCEZUIsr4EEIG', TRUE);
+INSERT INTO `usuario` (`id`, `nome`, `cpf`, `senha`, `ativo`, data_Acesso) VALUES
+(DEFAULT, 'Usuario 01', '14848682002', '$2a$10$FHayM6spzm5LGUa//VKYKe9iWLPlSnYpdwGEkvHMlCEZUIsr4EEIG', TRUE, now());
  
-INSERT INTO `usuario` (`id`, `nome`, `cpf`, `senha`, `ativo`) VALUES
-(DEFAULT, 'Usuario 02', '27546823099', '$2a$10$FHayM6spzm5LGUa//VKYKe9iWLPlSnYpdwGEkvHMlCEZUIsr4EEIG', TRUE);
+INSERT INTO `usuario` (`id`, `nome`, `cpf`, `senha`, `ativo`, data_Acesso) VALUES
+(DEFAULT, 'Usuario 02', '27546823099', '$2a$10$FHayM6spzm5LGUa//VKYKe9iWLPlSnYpdwGEkvHMlCEZUIsr4EEIG', TRUE, now());
  
 INSERT INTO `regra` (`id`, `nome`, `descricao`, `ativo`) VALUES
 (DEFAULT, 'ROLE_ADM_USUARIO', 'Permite acesso aos serviços de usuário', TRUE);

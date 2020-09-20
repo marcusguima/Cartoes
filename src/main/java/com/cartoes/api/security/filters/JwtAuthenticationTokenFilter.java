@@ -14,7 +14,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
- 
+
+import com.cartoes.api.entities.Usuario;
+import com.cartoes.api.repositories.UsuarioRepository;
 import com.cartoes.api.security.utils.JwtTokenUtil;
  
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
@@ -27,21 +29,30 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
    	
    	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
- 
+   	
+ 	@Autowired
+	private UsuarioRepository usuarioRepository;
+
    	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
          	
+   		
+   		
+   		
     	String token = request.getHeader(AUTH_HEADER);
     	
     	if (token != null && token.startsWith(BEARER_PREFIX)) {
     	 	token = token.substring(7);
     	}
     	
-    	String username = jwtTokenUtil.getUsernameFromToken(token);
+    	String username = jwtTokenUtil.getUsernameFromToken(token);  	
+    	
  
     	if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
  
         	UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+        	
+        	
         	
         	if (jwtTokenUtil.tokenValido(token)) {
         	
@@ -52,9 +63,33 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         	}
         	
     	}
- 
+    	
+    	
+    	
     	chain.doFilter(request, response);
     	
+    	
+    	
 	}
+   	
  
+	public void atualizarDataAcesso(int id) {
+ 	   	
+   		usuarioRepository.atualizarDataAcesso(id);
+   	
+   	
+	}
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
 }

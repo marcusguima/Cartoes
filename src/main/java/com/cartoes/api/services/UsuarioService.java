@@ -1,6 +1,8 @@
 package com.cartoes.api.services;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.cartoes.api.entities.Regra;
@@ -169,5 +172,28 @@ public class UsuarioService {
 		usuarioRepository.alterarSenhaUsuario(SenhaUtils.gerarHash(novaSenha), id);
 
 	}
+	
+	@Scheduled(fixedRate = 86400000)
+	public void bloquearUsuarios() throws ConsistenciaException {
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+		log.info("Processo agendado! Executado em : {}", dateFormat.format(new Date()));
+		
+		
+		
+		
+		
+	}
+	
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
